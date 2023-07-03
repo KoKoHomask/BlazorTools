@@ -1,0 +1,21 @@
+﻿@page "/modbusCRC"
+@using BlazorTools.Shared
+<h3>ModbusCrc</h3>
+
+<label class="group-text">数组:</label>
+<div class="input-group mb-3">
+    <input @bind-value="@ip_Data" type="text" class="form-control" placeholder="请输入数组">
+    <button type="button" class="btn btn-primary" onclick="@btn_CalcCrc">计算</button>
+</div>
+<label>@crc</label>
+@code {
+    string ip_Data { get; set; }
+    string crc{ get; set; }
+    void btn_CalcCrc(EventArgs e)
+    {
+
+        crc = CRCHelper.ToModbusCRC16(ip_Data);
+
+        StateHasChanged();
+    }
+}

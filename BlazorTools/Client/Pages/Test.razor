@@ -1,0 +1,12 @@
+﻿@page "/test"
+@inject IJSRuntime JS
+
+<h3>Test</h3>
+<button class="btn btn-primary" onclick="@btnClick">测试</button>
+@code {
+    async Task btnClick(EventArgs e)
+    {
+        var keyArray = await JS.InvokeAsync<string[]>("rsaCreatekey", 1024);
+        ;
+    }
+}
