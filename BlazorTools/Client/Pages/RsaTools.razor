@@ -134,9 +134,10 @@ function copyToClipboard(eleID){{
     {
         await JS.InvokeVoidAsync("copyToClipboard", "resCalc");
     }
-    async Task btnC2Click(EventArgs e)
+    Task btnC2Click(EventArgs e)
     {
         ip_DStr = res_RsaCalc;
         StateHasChanged();
+        return Task.CompletedTask;
     }
 }
