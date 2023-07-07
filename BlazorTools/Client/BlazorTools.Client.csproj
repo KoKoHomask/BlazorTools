@@ -29,13 +29,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FFmpegBlazor" Version="1.0.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.16" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.16" PrivateAssets="all" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Shared\BlazorTools.Shared.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\BlazorTools.FFmpegConvert\BlazorTools.FFmpegConvert.csproj" />
+		<ProjectReference Include="..\Shared\BlazorTools.Shared.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<BlazorWebAssemblyLazyLoad Include="BlazorTools.FFmpegConvert.dll" />
+		<BlazorWebAssemblyLazyLoad Include="FFmpegBlazor.dll" />
+	</ItemGroup>
 
 </Project>
