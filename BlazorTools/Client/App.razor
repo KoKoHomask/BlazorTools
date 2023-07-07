@@ -23,7 +23,8 @@
     {
         try
         {
-            if (args.Path == "mp4tomp3")
+            string[] pathArray = new string[] { "m4atomp3", "mp4tomp3" };
+            if (pathArray.Contains(args.Path))
             {
                 // 这里自定义Demand.Components依赖的程序集，
                 var assemblies = await AssemblyLoader.LoadAssembliesAsync(new[] { "BlazorTools.FFmpegConvert.dll", "FFmpegBlazor.dll" });
