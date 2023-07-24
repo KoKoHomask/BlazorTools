@@ -52,7 +52,6 @@ function rsaDecrypt(prvKey, text){{
     
     if(subStrArray){{
         subStrArray.forEach(function(entry) {{
-            console.log(hextob64(entry));
             var tmp = KJUR.crypto.Cipher.decrypt(entry, key);
             dec += tmp;
 		}});
@@ -78,7 +77,6 @@ function rsaEncrypt (pubKey, text)
 				}}else{{bitLen += 4;
 				}}
         if(bitLen>maxLength){{subStr = text.substring(subStart, subEnd)
-                    console.log(subStr);
 					encryptedString += KJUR.crypto.Cipher.encrypt(subStr, key);
 					subStart=subEnd;
 					bitLen=bitLen-tmpPoint;
@@ -87,7 +85,6 @@ function rsaEncrypt (pubKey, text)
 				}}
 }}
     subStr=text.substring(subStart,len)
-    console.log(subStr);
 	encryptedString += KJUR.crypto.Cipher.encrypt(subStr, key);
     return hextob64(encryptedString);  
 }}
