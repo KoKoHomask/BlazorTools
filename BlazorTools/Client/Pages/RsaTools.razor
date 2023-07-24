@@ -41,24 +41,56 @@
     {
         return $@"
 function rsaDecrypt(prvKey, text){{
-    //var key = KEYUTIL.getKey(prvKey);
-    //var enc = b64tohex(text);
+    var key = KEYUTIL.getKey(prvKey);
+    var maxLength = ((key.n.bitLength()+7)>>3)*2;
+    var enc = b64tohex(text);
     //var dec = KJUR.crypto.Cipher.decrypt(enc, key);
-    //return dec;
-    var enc = new JSEncrypt();
-    enc.setPrivateKey(prvKey);
-    var dec = enc.decryptLong(text);
-    return dec
-    }}
+    var dec='';
+    var rexStr="".{{1,"" + maxLength  + ""}}"";
+    var rex =new RegExp(rexStr, 'g');
+    var subStrArray = enc.match(rex);
+    
+    if(subStrArray){{
+        subStrArray.forEach(function(entry) {{
+            console.log(hextob64(entry));
+            var tmp = KJUR.crypto.Cipher.decrypt(entry, key);
+            dec += tmp;
+		}});
+	}}
+    return dec;
+}}
+
 function rsaEncrypt (pubKey, text)
 {{
-    //var key = KEYUTIL.getKey(pubKey);
+    var key = KEYUTIL.getKey(pubKey);
     //var enc = KJUR.crypto.Cipher.encrypt(text, key);
     //return hextob64(enc);
-    var enc = new JSEncrypt();
-    enc.setPublicKey(pubKey);
-    return enc.encryptLong(text);
-    }}
+    var maxLength = ((key.n.bitLength()+7)>>3)-11;
+
+    var subStr='', encryptedString = '';
+	var subStart = 0, subEnd=0;
+	var bitLen=0, tmpPoint=0;
+    for(var i = 0, len = text.length; i < len; i++){{
+        var charCode = text.charCodeAt(i);
+        if(charCode <= 0x007f) {{bitLen += 1;
+				}}else if(charCode <= 0x07ff){{bitLen += 2;
+				}}else if(charCode <= 0xffff){{bitLen += 3;
+				}}else{{bitLen += 4;
+				}}
+        if(bitLen>maxLength){{subStr = text.substring(subStart, subEnd)
+                    console.log(subStr);
+					encryptedString += KJUR.crypto.Cipher.encrypt(subStr, key);
+					subStart=subEnd;
+					bitLen=bitLen-tmpPoint;
+				}}else{{subEnd = i;
+					tmpPoint=bitLen;
+				}}
+}}
+    subStr=text.substring(subStart,len)
+    console.log(subStr);
+	encryptedString += KJUR.crypto.Cipher.encrypt(subStr, key);
+    return hextob64(encryptedString);  
+}}
 function rsaCreatekey(len)
 {{
     var kp = KEYUTIL.generateKeypair(""RSA"", len);
@@ -90,20 +122,14 @@ function copyToClipboard(eleID){{
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            string scriptContent,scriptContent1;
+            string scriptContent;
             using (var stream = this.GetType().Assembly.GetManifestResourceStream(this.GetType().Assembly.GetName().Name + ".Pages.RsaTools.razor.js"))
             {
                 using (var sr = new System.IO.StreamReader(stream))
                     scriptContent = await sr.ReadToEndAsync();
-            }
-            using (var stream = this.GetType().Assembly.GetManifestResourceStream(this.GetType().Assembly.GetName().Name + ".Pages.RsaTools.razor.js1"))
-            {
-                using (var sr = new System.IO.StreamReader(stream))
-                    scriptContent1 = await sr.ReadToEndAsync();
-            }
+            }            
             //module = await JS.InvokeAsync<IJSObjectReference>("import", "data:text/javascript;base64," + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(scriptContent)));
             await JS.InvokeVoidAsync("eval", scriptContent);
-            await JS.InvokeVoidAsync("eval", scriptContent1);
             await JS.InvokeVoidAsync("eval", rsaScriptInit());
         }
 
