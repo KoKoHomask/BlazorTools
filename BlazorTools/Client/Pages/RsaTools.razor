@@ -48,7 +48,6 @@ function rsaDecrypt(prvKey, text){{
     var enc = new JSEncrypt();
     enc.setPrivateKey(prvKey);
     var dec = enc.decryptLong(text);
-    console.log(dec);
     return dec
     }}
 function rsaEncrypt (pubKey, text)
