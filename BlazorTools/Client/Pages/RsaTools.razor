@@ -41,16 +41,24 @@
     {
         return $@"
 function rsaDecrypt(prvKey, text){{
-    var key = KEYUTIL.getKey(prvKey);
-    var enc = b64tohex(text);
-    var dec = KJUR.crypto.Cipher.decrypt(enc, key);
-    return dec;
+    //var key = KEYUTIL.getKey(prvKey);
+    //var enc = b64tohex(text);
+    //var dec = KJUR.crypto.Cipher.decrypt(enc, key);
+    //return dec;
+    var enc = new JSEncrypt();
+    enc.setPrivateKey(prvKey);
+    var dec = enc.decryptLong(text);
+    console.log(dec);
+    return dec
     }}
 function rsaEncrypt (pubKey, text)
 {{
-    var key = KEYUTIL.getKey(pubKey);
-    var enc = KJUR.crypto.Cipher.encrypt(text, key);
-    return hextob64(enc);
+    //var key = KEYUTIL.getKey(pubKey);
+    //var enc = KJUR.crypto.Cipher.encrypt(text, key);
+    //return hextob64(enc);
+    var enc = new JSEncrypt();
+    enc.setPublicKey(pubKey);
+    return enc.encryptLong(text);
     }}
 function rsaCreatekey(len)
 {{
@@ -83,14 +91,20 @@ function copyToClipboard(eleID){{
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            string scriptContent;
+            string scriptContent,scriptContent1;
             using (var stream = this.GetType().Assembly.GetManifestResourceStream(this.GetType().Assembly.GetName().Name + ".Pages.RsaTools.razor.js"))
             {
                 using (var sr = new System.IO.StreamReader(stream))
                     scriptContent = await sr.ReadToEndAsync();
             }
+            using (var stream = this.GetType().Assembly.GetManifestResourceStream(this.GetType().Assembly.GetName().Name + ".Pages.RsaTools.razor.js1"))
+            {
+                using (var sr = new System.IO.StreamReader(stream))
+                    scriptContent1 = await sr.ReadToEndAsync();
+            }
             //module = await JS.InvokeAsync<IJSObjectReference>("import", "data:text/javascript;base64," + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(scriptContent)));
             await JS.InvokeVoidAsync("eval", scriptContent);
+            await JS.InvokeVoidAsync("eval", scriptContent1);
             await JS.InvokeVoidAsync("eval", rsaScriptInit());
         }
 

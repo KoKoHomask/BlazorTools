@@ -21,11 +21,13 @@
   <ItemGroup>
     <None Remove="Pages\QRCode.razor.js" />
     <None Remove="Pages\RsaTools.razor.js" />
+    <None Remove="Pages\RsaTools.razor.js1" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Pages\QRCode.razor.js" />
     <EmbeddedResource Include="Pages\RsaTools.razor.js" />
+    <EmbeddedResource Include="Pages\RsaTools.razor.js1" />
   </ItemGroup>
 
   <ItemGroup>
