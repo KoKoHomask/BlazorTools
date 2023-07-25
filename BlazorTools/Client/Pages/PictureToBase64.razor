@@ -30,7 +30,7 @@
             {
                 if (file.ContentType.IndexOf("image") >= 0)
                 {
-                    var stream = file.OpenReadStream();
+                    var stream = file.OpenReadStream(200000000);
                     var ext = System.IO.Path.GetExtension(file.Name).Substring(1);
                     byte[] buf = new byte[stream.Length];
                     await stream.ReadAsync(buf);
