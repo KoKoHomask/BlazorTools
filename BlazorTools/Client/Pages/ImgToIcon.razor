@@ -50,10 +50,11 @@
                     {
                         if (profileImage.Width > 255 || profileImage.Height > 255)
                         {
-                            convertResult = "";
-                            covertAlert = "The image size is more than 255";
-                            StateHasChanged();
-                            return; 
+                            int maxVal = profileImage.Width > profileImage.Height ? profileImage.Width : profileImage.Height;
+                            var k = (int)(maxVal / 255.0 + 0.5);
+                            int width = profileImage.Width / k;
+                            int height = profileImage.Height / k;
+                            profileImage.Mutate(x => x.Resize(width, height));        
                         }
                         covertAlert = "";
                         MemoryStream memory = new MemoryStream();
