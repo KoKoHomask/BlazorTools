@@ -41,6 +41,7 @@
 	<ItemGroup>
 		<BlazorWebAssemblyLazyLoad Include="BlazorTools.FFmpegConvert.dll" />
 		<BlazorWebAssemblyLazyLoad Include="FFmpegBlazor.dll" />
+		<BlazorWebAssemblyLazyLoad Include="SixLabors.ImageSharp.dll" />
 	</ItemGroup>
 
 </Project>
