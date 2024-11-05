@@ -1,5 +1,6 @@
 ﻿@page "/imgtoicon"
 @using SixLabors.ImageSharp;
+@using SixLabors.ImageSharp.Processing
 <h3>Img转Icon</h3>
 
 <InputFile @ref="@inputFile" OnChange="@LoadFiles" accept="image/x-png,image/gif,image/jpeg,image/bmp" />
