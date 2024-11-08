@@ -4,7 +4,7 @@
 @using System.Collections.Generic
 <h3>DNS泄露测试</h3>
 <br />
-<button class="btn btn-light" onclick="@btnClick">测试</button>
+<button class="btn btn-primary" onclick="@btnClick" disabled="@btnDis">测试</button>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -18,14 +18,16 @@
     </div>
 </div>
 @code {
+    bool btnDis = false;
     RenderFragment? rContent1 { get; set; }
     RenderFragment? rContent2 { get; set; }
     RenderFragment? rContent3 { get; set; }
     async Task btnClick(EventArgs e)
     {
-        rContent1 =@<p></p>;
-        rContent2 =@<p></p>;
-        rContent3 =@<p></p>;
+        btnDis = true;
+        rContent1 =@<p>Running...</p>;
+        rContent2 =@<p>Running...</p>;
+        rContent3 =@<p>Running...</p>;
         StateHasChanged();
 
         string[] urls = new[]
@@ -40,20 +42,31 @@
             var tsk1 = await client.GetFromJsonAsync<ip_api_dns>(urls[0]);
             if (tsk1 != null)
                 rContent1 =@<p>@tsk1.dns.ip<br />@tsk1.dns.geo</p>;
-        }catch{}
+        }
+        catch (Exception ex)
+        {
+            rContent1 =@<p>@ex.Message</p>;
+        }
         try
         {
             var tsk2 = await client.GetFromJsonAsync<Dictionary<string, surfshardDns>>(urls[1]);
             if (tsk2 != null && tsk2.Count > 0)
                 rContent2 =@<p>@tsk2.FirstOrDefault().Value.IP<br />@tsk2.FirstOrDefault().Value.ISP<br />@tsk2.FirstOrDefault().Value.City</p>;
-
-        }catch{}
+        }
+        catch (Exception ex)
+        {
+            rContent2 =@<p>@ex.Message</p>;
+        }
         try
         {
             var tsk3 = await client.GetFromJsonAsync<Dictionary<string, surfshardDns>>(urls[2]);
             if (tsk3 != null && tsk3.Count > 0)
                 rContent3 =@<p>@tsk3.FirstOrDefault().Value.IP<br />@tsk3.FirstOrDefault().Value.ISP<br />@tsk3.FirstOrDefault().Value.City</p>;
-        }catch{}
+        }catch(Exception ex)
+        {
+            rContent3 =@<p>@ex.Message</p>;
+        }
+        btnDis = false;
         StateHasChanged();
     }
    

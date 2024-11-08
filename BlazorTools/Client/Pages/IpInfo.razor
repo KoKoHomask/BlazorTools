@@ -2,7 +2,7 @@
 @using System.Text.Json.Serialization
 <h3>IpInfo</h3>
 <br />
-<button class="btn btn-light" onclick="@btnClick">查看</button>
+<button class="btn btn-primary" onclick="@btnClick" disabled="@btnDis">查看</button>
 <hr />
 <div class="row">
     <div class="col-md-6">
@@ -13,45 +13,56 @@
     </div>
 </div>
 @code {
+    bool btnDis = false;
     RenderFragment? rContentv4 { get; set; }
     RenderFragment? rContentv6 { get; set; }
     async Task btnClick(EventArgs e)
     {
-        System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
-        var ip4 = await client.GetFromJsonAsync<ip_root>("https://ip4.ljjl.net");
-        var ip6 = await client.GetFromJsonAsync<ip_root>("https://ip6.ljjl.net");
+        btnDis = true;
+        rContentv4 =@<p>Running...</p>;
+        rContentv6 = @<p>Running...</p>;
+        StateHasChanged();
+        try
+        {
+            System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
+            var ip4 = await client.GetFromJsonAsync<ip_root>("https://ip4.ljjl.net");
+            var ip6 = await client.GetFromJsonAsync<ip_root>("https://ip6.ljjl.net");
 
-        // rContentv4 = (Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) =>
-        // {
-        //     <p>IP: @ip4.IP.IP</p>
-        //     <p>ASN: @ip4.IP.ASN</p>
-        // };
-        if (ip4 == null)
-            rContentv4 =@<p>Failed</p>;
-        else
-        {
-            rContentv4 = __builder =>
+            
+            if (ip4 == null)
+                rContentv4 =@<p>Failed</p>;
+            else
             {
-                <p>IP: @ip4.IP.IP</p>
-                <p>Continent: @ip4.IP.Continent</p>
-                <p>Country: @ip4.IP.Country</p>
-                <p>Region: @ip4.IP.Region</p>
-                <p>UA: @ip4.Headers.user_agent</p>
-            };
-        }
-        if(ip6==null)
-            rContentv6 = @<p>Failed</p>;
-        else
+                rContentv4 = __builder =>
+                {
+                    <p>IP: @ip4.IP.IP</p>
+                    <p>Continent: @ip4.IP.Continent</p>
+                    <p>Country: @ip4.IP.Country</p>
+                    <p>Region: @ip4.IP.Region</p>
+                    <p>UA: @ip4.Headers.user_agent</p>
+                };
+            }
+            if (ip6 == null)
+                rContentv6 = @<p>Failed</p>;
+            else
+            {
+                rContentv6 = __builder =>
+               {
+                   <p>IP: @ip6.IP.IP</p>
+                   <p>Continent: @ip6.IP.Continent</p>
+                   <p>Country: @ip6.IP.Country</p>
+                   <p>Region: @ip6.IP.Region</p>
+                   <p>UA: @ip6.Headers.user_agent</p>
+               };
+            }
+        }catch(Exception ex)
         {
-            rContentv6 =  __builder =>
-           {
-               <p>IP: @ip6.IP.IP</p>
-               <p>Continent: @ip6.IP.Continent</p>
-               <p>Country: @ip6.IP.Country</p>
-               <p>Region: @ip6.IP.Region</p>
-               <p>UA: @ip6.Headers.user_agent</p>
-           };
+            rContentv4 = (Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) =>
+            {
+                <p>@ex.Message</p>
+            }; 
         }
+        btnDis = false;
         StateHasChanged();
     }
 
