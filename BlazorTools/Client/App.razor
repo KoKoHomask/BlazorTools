@@ -27,7 +27,7 @@
             if (pathArray.Contains(args.Path))
             {
                 // 这里自定义Demand.Components依赖的程序集，
-                var assemblies = await AssemblyLoader.LoadAssembliesAsync(new[] { "BlazorTools.FFmpegConvert.dll", "FFmpegBlazor.dll","SixLabors.ImageSharp.dll" });
+                var assemblies = await AssemblyLoader.LoadAssembliesAsync(new[] { "BlazorTools.FFmpegConvert.wasm", "FFmpegBlazor.wasm", "SixLabors.ImageSharp.wasm" });
                 // 添加到路由程序集扫描中
                 lazyLoadedAssemblies.AddRange(assemblies);
             }

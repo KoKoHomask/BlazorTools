@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <BlazorCacheBootResources>false</BlazorCacheBootResources>
@@ -9,7 +9,7 @@
 	<!--https://learn.microsoft.com/zh-cn/dotnet/core/deploying/trimming/trimming-options?pivots=dotnet-6-0-->
 	<PublishTrimmed>true</PublishTrimmed>
     <InvariantGlobalization>true</InvariantGlobalization>
-    <BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
+    <!--<BlazorEnableTimeZoneSupport>true</BlazorEnableTimeZoneSupport>-->
     <EventSourceSupport>false</EventSourceSupport>
     <HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>
     <EnableUnsafeBinaryFormatterSerialization>false</EnableUnsafeBinaryFormatterSerialization>
@@ -29,8 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.35" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.35" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.11" PrivateAssets="all" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
   </ItemGroup>
 
@@ -39,9 +39,12 @@
 		<ProjectReference Include="..\Shared\BlazorTools.Shared.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<BlazorWebAssemblyLazyLoad Include="BlazorTools.FFmpegConvert.dll" />
-		<BlazorWebAssemblyLazyLoad Include="FFmpegBlazor.dll" />
-		<BlazorWebAssemblyLazyLoad Include="SixLabors.ImageSharp.dll" />
+		<BlazorWebAssemblyLazyLoad Include="BlazorTools.FFmpegConvert.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="FFmpegBlazor.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="SixLabors.ImageSharp.wasm" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Properties\PublishProfiles\" />
 	</ItemGroup>
 
 </Project>
