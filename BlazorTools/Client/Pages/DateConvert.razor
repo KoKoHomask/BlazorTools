@@ -57,7 +57,7 @@
         {
             case Inputenum.DATE: break;
             case Inputenum.DATEUTC:
-                date = TimeZoneInfo.ConvertTime(dateUtc, TimeZoneInfo.Local);
+                date = TimeZoneInfo.ConvertTimeFromUtc(dateUtc, TimeZoneInfo.Local);
                 break;
             case Inputenum.CSTICK:
                 date = new DateTime(csTick);
