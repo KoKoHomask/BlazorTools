@@ -22,11 +22,15 @@
 		<ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
 	</ItemGroup>
 	<ItemGroup>
+		<None Remove="Pages\ColorPicker.razor.css" />
+		<None Remove="Pages\ColorPicker.razor.js" />
 		<None Remove="Pages\QRCode.razor.js" />
 		<None Remove="Pages\RsaTools.razor.js" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Include="Pages\ColorPicker.razor.css" />
+		<EmbeddedResource Include="Pages\ColorPicker.razor.js" />
 		<EmbeddedResource Include="Pages\QRCode.razor.js" />
 		<EmbeddedResource Include="Pages\RsaTools.razor.js" />
 	</ItemGroup>
